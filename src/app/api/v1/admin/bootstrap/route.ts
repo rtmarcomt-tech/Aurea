@@ -1,4 +1,4 @@
-import { timingSafeEqual } from "node:crypto";
+import { createHash, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import argon2 from "argon2";
 import { z } from "zod";
@@ -32,6 +32,22 @@ export async function POST(request: Request) {
 
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Dados inválidos. A palavra-passe deve ter pelo menos 14 caracteres." }, { status: 400 });
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  const rateKey = createHash("sha256").update("admin-bootstrap:" + ip).digest("hex");
+  const now = new Date();
+  const threshold = new Date(now.getTime() - 15 * 60 * 1000);
+  try {
+    const attempts = await prisma.$transaction(async (tx) => {
+      await tx.rateLimitBucket.upsert({ where: { key: rateKey }, create: { key: rateKey, count: 0, windowStartedAt: now }, update: {} });
+      await tx.rateLimitBucket.updateMany({ where: { key: rateKey, windowStartedAt: { lte: threshold } }, data: { count: 1, windowStartedAt: now } });
+      await tx.rateLimitBucket.updateMany({ where: { key: rateKey, windowStartedAt: { gt: threshold } }, data: { count: { increment: 1 } } });
+      return (await tx.rateLimitBucket.findUniqueOrThrow({ where: { key: rateKey } })).count;
+    }, { isolationLevel: "Serializable" });
+    if (attempts > 4) return NextResponse.json({ error: "Demasiadas tentativas. Aguarde 15 minutos." }, { status: 429 });
+  } catch {
+    return NextResponse.json({ error: "Não foi possível validar a configuração inicial." }, { status: 503 });
+  }
+
   if (!secretMatches(parsed.data.bootstrapSecret, expected)) {
     return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
   }
