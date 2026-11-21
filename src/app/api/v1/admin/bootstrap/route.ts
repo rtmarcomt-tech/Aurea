@@ -62,7 +62,7 @@ export async function POST(request: Request) {
           passwordHash: await argon2.hash(parsed.data.password, { type: argon2.argon2id }),
         },
       });
-    });
+    }, { isolationLevel: "Serializable" });
     await createAdminSession(user.id);
     return NextResponse.json({ success: true }, { status: 201 });
   } catch (error) {
