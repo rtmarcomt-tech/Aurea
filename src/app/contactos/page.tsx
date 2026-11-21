@@ -1,23 +1,6 @@
 import { ContactForm } from "@/components/contact-form";
 
-export default function ContactPage() {
-  return <main>
-    <header className="site-header">
-      <a className="wordmark" href="/">AureA<span>.</span></a>
-      <nav aria-label="Navegação principal"><a href="/sobre">Sobre</a><a href="/servicos">Serviços</a><a href="/">Início</a></nav>
-      <a className="header-cta" href="/">Voltar ao início <span>↗</span></a>
-    </header>
-    <section className="contact contact-page">
-      <div className="contact-layout">
-        <div className="contact-intro">
-          <p className="eyebrow">Contactos</p>
-          <h1>Vamos dar forma<br/>à sua próxima ideia?</h1>
-          <p>Conte-nos um pouco sobre o que pretende desenvolver. A equipa AureA analisará o seu pedido e entrará em contacto.</p>
-          <span className="contact-note">mMDs — MultiMedia Digital Solutions</span>
-        </div>
-        <ContactForm />
-      </div>
-    </section>
-    <footer><a className="wordmark" href="/">AureA<span>.</span></a><span>mMDs — MultiMedia Digital Solutions</span></footer>
-  </main>;
-}
+function Header(){return <header className="site-header"><a className="wordmark" href="/">AureA<span>.</span></a><nav aria-label="Navegação principal"><a href="/">Início</a><a href="/servicos">Serviços</a><a href="/sobre">Sobre</a><a href="/contactos" aria-current="page">Contactos</a></nav><a className="header-cta" href="/">Voltar ao início <span>↗</span></a></header>}
+function Footer(){return <footer className="site-footer"><a className="wordmark" href="/">AureA<span>.</span></a><span>mMDs — MultiMedia Digital Solutions</span><nav aria-label="Navegação de rodapé"><a href="/">Início</a><a href="/servicos">Serviços</a><a href="/sobre">Sobre</a></nav></footer>}
+
+export default function ContactPage(){return <main><Header/><section className="contact contact-page"><div className="contact-layout"><div className="contact-intro"><p className="eyebrow">Contactos</p><h1>Vamos dar forma<br/>à sua próxima ideia?</h1><p>Conte-nos um pouco sobre o que pretende desenvolver. Explique-nos o seu desafio e entraremos em contacto para perceber como podemos ajudar.</p><span className="contact-note">mMDs — MultiMedia Digital Solutions</span></div><ContactForm/></div></section><Footer/></main>}
