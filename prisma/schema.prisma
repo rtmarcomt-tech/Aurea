@@ -136,3 +136,12 @@ model AuditEvent {
   @@index([createdAt])
   @@index([entityType, entityId])
 }
+
+model RateLimitBucket {
+  key             String   @id
+  count           Int      @default(0)
+  windowStartedAt DateTime
+  updatedAt       DateTime @updatedAt
+
+  @@index([windowStartedAt])
+}
