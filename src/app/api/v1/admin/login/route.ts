@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { createAdminSession } from "@/lib/admin-auth";
+import { consumeRateLimit } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 const schema = z.object({ email: z.string().trim().email().max(254), password: z.string().min(1).max(128) });
@@ -18,17 +19,8 @@ export async function POST(request: Request) {
 
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
   const key = createHash("sha256").update("admin-login:" + ip).digest("hex");
-  const now = new Date();
-  const threshold = new Date(now.getTime() - 15 * 60 * 1000);
-
   try {
-    const attempts = await prisma.$transaction(async (tx) => {
-      await tx.rateLimitBucket.upsert({ where: { key }, create: { key, count: 0, windowStartedAt: now }, update: {} });
-      await tx.rateLimitBucket.updateMany({ where: { key, windowStartedAt: { lte: threshold } }, data: { count: 1, windowStartedAt: now } });
-      await tx.rateLimitBucket.updateMany({ where: { key, windowStartedAt: { gt: threshold } }, data: { count: { increment: 1 } } });
-      return (await tx.rateLimitBucket.findUniqueOrThrow({ where: { key } })).count;
-    }, { isolationLevel: "Serializable" });
-
+    const attempts = await consumeRateLimit(key, 15 * 60 * 1000);
     if (attempts > 8) return NextResponse.json({ error: "Demasiadas tentativas. Aguarde 15 minutos." }, { status: 429 });
 
     const user = await prisma.adminUser.findUnique({ where: { email: parsed.data.email.toLowerCase() } });
