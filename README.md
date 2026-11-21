@@ -32,3 +32,13 @@ This repository is being initialized. Architecture and implementation decisions 
 ## Development
 
 The application uses Next.js App Router, TypeScript, PostgreSQL, Prisma, Zod and a local/S3-compatible media storage adapter. See `docs/architecture.md` and `docs/implementation-plan.md`.
+
+
+## Administração e contactos
+
+- Backoffice protegido em `/admin`, com autenticação por sessão HttpOnly.
+- Configuração inicial de administrador: consultar [docs/admin-setup.md](docs/admin-setup.md).
+- Caixa de entrada de contactos em `/admin/contactos`, com estados Nova, Lida e Arquivada.
+- Migrações PostgreSQL versionadas em `prisma/migrations`.
+
+O CI executa instalação, geração do Prisma Client, lint, verificação TypeScript, testes unitários e build de produção. A publicação não deve avançar enquanto estes controlos não estiverem verdes.
