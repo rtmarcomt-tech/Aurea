@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: 22
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps --no-audit --no-fund --verbose
       - name: Generate Prisma Client
         run: npx prisma generate
       - name: Lint
