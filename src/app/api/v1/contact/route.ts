@@ -7,6 +7,7 @@ import { consumeRateLimit } from "@/lib/rate-limit";
 export const runtime = "nodejs";
 
 const MAX_BODY_BYTES = 12_000;
+const MAX_PER_HOUR = 5;
 export async function POST(request: Request) {
   const contentLength = Number(request.headers.get("content-length") ?? 0);
   if (contentLength > MAX_BODY_BYTES) {
@@ -45,7 +46,7 @@ export async function POST(request: Request) {
     if (attempts > MAX_PER_HOUR) {
       return NextResponse.json({ error: "Foram recebidos demasiados pedidos. Tente novamente mais tarde." }, {
         status: 429,
-        headers: { "Retry-After": String(WINDOW_MS / 1000) },
+        headers: { "Retry-After": String(60 * 60) },
       });
     }
 
