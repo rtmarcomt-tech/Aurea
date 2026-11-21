@@ -21,6 +21,9 @@ function secretMatches(received: string, expected: string) {
 }
 
 export async function POST(request: Request) {
+  if (!process.env.APP_URL?.startsWith("https://")) {
+    return NextResponse.json({ error: "A autenticação administrativa só fica disponível após configurar HTTPS." }, { status: 503 });
+  }
   const expected = process.env.ADMIN_BOOTSTRAP_SECRET;
   if (!expected || expected.startsWith("replace-with-")) {
     return NextResponse.json({ error: "A configuração inicial não está disponível." }, { status: 503 });
