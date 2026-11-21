@@ -3,7 +3,8 @@ set -Eeuo pipefail
 
 REPO="https://github.com/rtmarcomt-tech/Aurea.git"
 APP_DIR="/opt/aurea"
-PUBLIC_URL="http://185.217.125.200:3000"
+AUREA_PORT="3001"
+PUBLIC_URL="http://185.217.125.200:${AUREA_PORT}"
 
 if [[ "${EUID}" -ne 0 ]]; then
   echo "Execute este instalador como root (SSH root)."
@@ -21,8 +22,8 @@ if [[ "${ID:-}" != "ubuntu" && "${ID:-}" != "debian" ]]; then
   exit 1
 fi
 
-if command -v ss >/dev/null 2>&1 && ss -ltnH | grep -qE '(:|\\])3000[[:space:]]'; then
-  echo "A porta TCP 3000 já está ocupada. Não vou parar nem alterar esse serviço."
+if command -v ss >/dev/null 2>&1 && ss -ltnH "sport = :${AUREA_PORT}" | grep -q .; then
+  echo "A porta TCP ${AUREA_PORT} também já está ocupada. Não vou parar nem alterar esse serviço."
   exit 1
 fi
 
@@ -60,6 +61,7 @@ if [[ ! -f .env.production ]]; then
   cat > .env.production <<EOF
 POSTGRES_PASSWORD=$(openssl rand -hex 32)
 APP_SECRET=$(openssl rand -hex 48)
+AUREA_PORT=${AUREA_PORT}
 APP_URL=${PUBLIC_URL}
 EOF
   chmod 600 .env.production
@@ -71,14 +73,14 @@ if ! grep -q '^POSTGRES_PASSWORD=.' .env.production || ! grep -q '^APP_SECRET=.'
 fi
 
 if command -v ufw >/dev/null 2>&1 && ufw status 2>/dev/null | grep -q "Status: active"; then
-  ufw allow 3000/tcp
+  ufw allow "${AUREA_PORT}/tcp"
 fi
 
 docker compose --env-file .env.production -f docker-compose.production.yml up -d --build
 
 echo "A aguardar pela aplicação..."
 for attempt in $(seq 1 60); do
-  if curl -fsS http://127.0.0.1:3000/ >/dev/null; then
+  if curl -fsS "http://127.0.0.1:${AUREA_PORT}/" >/dev/null; then
     echo
     echo "AureA instalada e a responder."
     echo "Endereço temporário: ${PUBLIC_URL}"
