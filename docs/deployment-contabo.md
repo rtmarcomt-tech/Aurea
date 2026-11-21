@@ -3,56 +3,49 @@
 ## Isolamento
 
 - Diretório de instalação: `/opt/aurea`.
-- Aplicação Next.js: porta TCP 3000.
+- Aplicação Next.js: porta TCP 3001 no host (porta 3000 dentro do container).
 - PostgreSQL: serviço Docker privado, sem porta publicada no host.
 - Volume persistente exclusivo: `aurea_production_postgres`.
 - O Mercur mantém a sua instalação e a porta 9000; não é alterado por este deployment.
+- A instalação não altera serviços existentes; se a porta 3001 estiver ocupada, o instalador termina sem modificar esse serviço.
 
 ## Requisitos
 
 - VPS Linux com Docker Engine e Docker Compose plugin.
 - Acesso SSH como utilizador com permissões sudo.
-- Porta TCP 3000 permitida na firewall e no painel Contabo.
+- Porta TCP 3001 permitida na firewall e no painel Contabo.
 - Repositório GitHub `rtmarcomt-tech/Aurea`.
 
 ## Preparação de ambiente
 
-Criar `.env.production` em `/opt/aurea`, nunca o adicionar ao Git:
+O instalador cria `.env.production` em `/opt/aurea`, se ainda não existir, com segredos aleatórios e estas definições:
 
 ```dotenv
-POSTGRES_PASSWORD=GERAR_UMA_PASSWORD_LONGA_E_ALEATORIA
-APP_SECRET=GERAR_OUTRO_SEGREDO_LONGO_E_ALEATORIO
-APP_URL=http://185.217.125.200:3000
+AUREA_PORT=3001
+APP_URL=http://185.217.125.200:3001
 ```
 
-Não reutilizar palavras-passe, segredos ou credenciais do Mercur.
+Os segredos nunca devem ser adicionados ao Git. Não reutilizar palavras-passe, segredos ou credenciais do Mercur.
 
 ## Arranque
 
-A partir de `/opt/aurea`:
+Executar o instalador como root:
 
 ```bash
-docker compose --env-file .env.production -f docker-compose.production.yml up -d --build
+curl -fsSL https://raw.githubusercontent.com/rtmarcomt-tech/Aurea/main/scripts/deploy-contabo.sh -o /tmp/deploy-aurea.sh && bash /tmp/deploy-aurea.sh
 ```
 
 O container da aplicação espera pela disponibilidade do PostgreSQL, aplica as migrações Prisma e inicia o Next.js. O PostgreSQL não fica exposto à Internet.
 
 ## Endereço temporário
 
-`http://185.217.125.200:3000`
+`http://185.217.125.200:3001`
 
 Este acesso é HTTP sem TLS. Deve ser usado apenas para validar as páginas públicas. Não iniciar sessão administrativa nem enviar credenciais por este endereço. A criação do administrador e o acesso ao backoffice ficam pendentes até existir HTTPS.
 
-## Verificação
-
-```bash
-docker compose --env-file .env.production -f docker-compose.production.yml ps
-docker compose --env-file .env.production -f docker-compose.production.yml logs --tail=100 web
-```
-
 ## Domínio e HTTPS posteriores
 
-Quando existir domínio, configurar DNS para o IP da VPS, instalar/configurar um reverse proxy TLS (Caddy ou Nginx), encaminhar o tráfego para a porta 3000, atualizar `APP_URL` para HTTPS e só então definir `ADMIN_BOOTSTRAP_SECRET` para criar a conta administrativa. Não expor a porta 3000 publicamente depois de o reverse proxy estar ativo; restringi-la a localhost.
+Quando existir domínio, configurar DNS para o IP da VPS, instalar/configurar um reverse proxy TLS (Caddy ou Nginx), encaminhar o tráfego para a porta interna da aplicação, atualizar `APP_URL` para HTTPS e só então definir `ADMIN_BOOTSTRAP_SECRET` para criar a conta administrativa. Não expor a porta 3001 publicamente depois de o reverse proxy estar ativo; restringi-la a localhost.
 
 ## Persistência e manutenção
 
