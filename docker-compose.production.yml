@@ -26,11 +26,11 @@ services:
         condition: service_healthy
     environment:
       NODE_ENV: production
-      APP_URL: ${APP_URL:-http://185.217.125.200:3000}
+      APP_URL: ${APP_URL:-http://185.217.125.200:3001}
       APP_SECRET: ${APP_SECRET:?Define APP_SECRET no ficheiro .env.production}
       DATABASE_URL: postgresql://aurea:${POSTGRES_PASSWORD}@database:5432/aurea?schema=public
     ports:
-      - "3000:3000"
+      - "${AUREA_PORT:-3001}:3000"
     networks:
       - aurea-internal
 
