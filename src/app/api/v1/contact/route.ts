@@ -2,39 +2,11 @@ import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { contactSchema } from "@/lib/contact-validation";
+import { consumeRateLimit } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
 const MAX_BODY_BYTES = 12_000;
-const MAX_PER_HOUR = 5;
-const WINDOW_MS = 60 * 60 * 1000;
-
-async function consumeRateLimit(key: string) {
-  const now = new Date();
-  const threshold = new Date(now.getTime() - WINDOW_MS);
-
-  return prisma.$transaction(async (tx) => {
-    await tx.rateLimitBucket.upsert({
-      where: { key },
-      create: { key, count: 0, windowStartedAt: now },
-      update: {},
-    });
-
-    await tx.rateLimitBucket.updateMany({
-      where: { key, windowStartedAt: { lte: threshold } },
-      data: { count: 1, windowStartedAt: now },
-    });
-
-    await tx.rateLimitBucket.updateMany({
-      where: { key, windowStartedAt: { gt: threshold } },
-      data: { count: { increment: 1 } },
-    });
-
-    const bucket = await tx.rateLimitBucket.findUniqueOrThrow({ where: { key } });
-    return bucket.count;
-  }, { isolationLevel: "Serializable" });
-}
-
 export async function POST(request: Request) {
   const contentLength = Number(request.headers.get("content-length") ?? 0);
   if (contentLength > MAX_BODY_BYTES) {
@@ -69,7 +41,7 @@ export async function POST(request: Request) {
   const rateKey = createHash("sha256").update(forwarded).digest("hex");
 
   try {
-    const attempts = await consumeRateLimit(rateKey);
+    const attempts = await consumeRateLimit(rateKey, 60 * 60 * 1000);
     if (attempts > MAX_PER_HOUR) {
       return NextResponse.json({ error: "Foram recebidos demasiados pedidos. Tente novamente mais tarde." }, {
         status: 429,
