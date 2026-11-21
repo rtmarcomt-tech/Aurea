@@ -42,3 +42,5 @@ The application uses Next.js App Router, TypeScript, PostgreSQL, Prisma, Zod and
 - Migrações PostgreSQL versionadas em `prisma/migrations`.
 
 O CI executa instalação, geração do Prisma Client, lint, verificação TypeScript, testes unitários e build de produção. A publicação não deve avançar enquanto estes controlos não estiverem verdes.
+
+CI dependency installation uses npm with compatibility flags until a reviewed lockfile is committed.
