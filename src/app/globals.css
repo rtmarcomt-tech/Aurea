@@ -90,3 +90,58 @@
 .inbox-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;padding-top:18px;border-top:1px solid var(--line)}
 .inbox-actions a,.inbox-actions button{border:0;background:transparent;padding:0;color:var(--blue-700);font-size:11px;cursor:pointer}
 @media(max-width:900px){.inbox{grid-template-columns:1fr}.inbox-detail{position:static}.inbox-toolbar{align-items:center}}
+
+/* Public website refinements */
+.site-header nav a[aria-current="page"]{color:var(--blue-900);font-weight:700}
+.hero{min-height:690px;padding-top:132px}
+.hero h1{max-width:950px}
+.hero-actions{display:flex;align-items:center;gap:30px;position:relative;z-index:1}
+.text-link,.inline-link{font-size:12px;font-weight:600;color:var(--blue-700)}
+.inline-link{display:inline-block;margin-top:32px;border-bottom:1px solid #b7c7d9;padding-bottom:10px}
+.inline-link span,.light-link span{margin-left:12px}
+.home-intro{padding-top:135px;padding-bottom:135px}
+.home-services .section-heading{max-width:620px}
+.section-heading>p:last-child{max-width:520px;color:var(--muted);font-size:14px;line-height:1.8;margin-top:22px}
+.service-grid-detailed .service{min-height:220px;padding-top:32px;padding-bottom:34px}
+.service-grid-detailed .service h2{font-size:21px;font-weight:600;letter-spacing:-.5px;margin:24px 0 12px}
+.service-grid-detailed .service p{font-size:14px;max-width:470px}
+.page-hero{padding:115px 12vw 100px;background:var(--wash);position:relative;overflow:hidden}
+.page-hero h1{font-size:clamp(54px,7.5vw,92px);line-height:1.02;letter-spacing:-5px;font-weight:500;margin:28px 0}
+.page-hero h1 span{color:var(--blue-500)}
+.page-hero>p:last-child{max-width:650px;color:var(--muted);font-size:16px;line-height:1.9}
+.services-page{padding-top:75px}
+.about-content{padding:120px 12vw;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1fr);gap:9vw}
+.about-statement h2{font-size:clamp(36px,4.5vw,58px);line-height:1.1;letter-spacing:-2.5px;font-weight:500;margin:25px 0}
+.about-statement h2 span{color:var(--blue-500)}
+.about-copy p{font-size:15px;line-height:1.95;color:var(--muted);margin:0 0 22px}
+.about-principles{padding:95px 12vw 115px;background:var(--wash)}
+.principle-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:35px;margin-top:42px}
+.principle-grid article{border-top:1px solid #dce5ef;padding-top:22px}
+.principle-grid article>span{font-size:10px;letter-spacing:1px;color:var(--blue-500)}
+.principle-grid h3{font-size:22px;font-weight:500;margin:24px 0 10px}
+.principle-grid p{font-size:13px;line-height:1.8;color:var(--muted);max-width:280px}
+.compact-contact{padding-top:85px;padding-bottom:90px}
+.compact-contact h2{margin-bottom:26px}
+.light-link{display:inline-block;color:#fff;font-size:13px;font-weight:600;border-bottom:1px solid rgba(255,255,255,.45);padding-bottom:12px;margin-top:18px}
+.site-footer{gap:26px}
+.site-footer nav{display:flex;gap:24px;color:#64748b;font-size:11px}
+.site-footer nav a:hover{color:var(--blue-500)}
+@media(max-width:760px){
+ .site-header{height:auto;min-height:72px;padding:17px 6vw;display:flex;flex-wrap:wrap;gap:14px 18px}
+ .site-header nav{display:flex;order:3;width:100%;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid var(--line);font-size:11px}
+ .site-header nav a{white-space:nowrap}
+ .header-cta{font-size:11px}
+ .hero{min-height:590px;padding:100px 7vw 85px}
+ .hero h1{font-size:clamp(54px,13vw,78px);letter-spacing:-4px}
+ .hero-side-note{display:none}
+ .page-hero{padding:85px 7vw 75px}
+ .page-hero h1{font-size:clamp(48px,12vw,68px);letter-spacing:-3px}
+ .about-content{padding:85px 7vw;grid-template-columns:1fr;gap:25px}
+ .about-principles{padding:75px 7vw 85px}
+ .principle-grid{grid-template-columns:1fr;gap:24px;margin-top:30px}
+ .principle-grid article{padding-top:18px}
+ .services-page{padding-top:55px}
+ .site-footer{align-items:flex-start;flex-direction:column;padding:30px 7vw}
+ .site-footer nav{flex-wrap:wrap}
+}
+@media(max-width:420px){.header-cta{display:none}.hero-actions{align-items:flex-start;flex-direction:column;gap:22px}.site-header nav{font-size:10px;gap:8px}}
