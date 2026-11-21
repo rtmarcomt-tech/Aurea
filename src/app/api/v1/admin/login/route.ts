@@ -10,6 +10,9 @@ export const runtime = "nodejs";
 const schema = z.object({ email: z.string().trim().email().max(254), password: z.string().min(1).max(128) });
 
 export async function POST(request: Request) {
+  if (!process.env.APP_URL?.startsWith("https://")) {
+    return NextResponse.json({ error: "A autenticação administrativa só fica disponível após configurar HTTPS." }, { status: 503 });
+  }
   let body: unknown;
   try { body = await request.json(); } catch {
     return NextResponse.json({ error: "Pedido inválido." }, { status: 400 });
