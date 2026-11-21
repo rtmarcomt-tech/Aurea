@@ -28,7 +28,7 @@ export default async function AdminDashboard() {
     <aside className="admin-sidebar">
       <Link className="wordmark" href="/">AureA<span>.</span></Link>
       <p className="admin-side-label">GESTÃO DO WEBSITE</p>
-      <nav><Link className="active" href="/admin">Visão geral</Link><Link href="/admin">Páginas <small>Em preparação</small></Link><Link href="/admin">Contactos <small>Em preparação</small></Link><Link href="/admin">Multimédia <small>Em preparação</small></Link><Link href="/admin">Definições <small>Em preparação</small></Link></nav>
+      <nav><Link className="active" href="/admin">Visão geral</Link><Link href="/admin">Páginas <small>Em preparação</small></Link><Link href="/admin/contactos">Contactos</Link><Link href="/admin">Multimédia <small>Em preparação</small></Link><Link href="/admin">Definições <small>Em preparação</small></Link></nav>
       <div className="admin-sidebar-bottom"><span>{session.user.email}</span><LogoutButton /></div>
     </aside>
     <section className="admin-main">
