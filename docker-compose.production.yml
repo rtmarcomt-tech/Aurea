@@ -1,0 +1,42 @@
+services:
+  database:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: aurea
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Define POSTGRES_PASSWORD no ficheiro .env.production}
+      POSTGRES_DB: aurea
+    volumes:
+      - aurea_production_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aurea -d aurea"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - aurea-internal
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      APP_URL: ${APP_URL:-http://185.217.125.200:3000}
+      APP_SECRET: ${APP_SECRET:?Define APP_SECRET no ficheiro .env.production}
+      DATABASE_URL: postgresql://aurea:${POSTGRES_PASSWORD}@database:5432/aurea?schema=public
+    ports:
+      - "3000:3000"
+    networks:
+      - aurea-internal
+
+volumes:
+  aurea_production_postgres:
+
+networks:
+  aurea-internal:
+    driver: bridge
