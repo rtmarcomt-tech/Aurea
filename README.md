@@ -1,0 +1,34 @@
+# AureA CMS
+
+A reusable, independently deployable CMS for institutional and professional websites.
+
+## Product principles
+
+- One independent installation per website: domain, database, media storage, administrator and configuration.
+- Shared codebase; no centralized multi-tenant runtime in v1.
+- Fixed public templates with structured editing forms, not a page builder.
+- Draft and published content are separate; publication is explicit and revisioned.
+- One administrator in v1.
+- Portuguese-first public content.
+
+## Planned v1
+
+- Public pages: Home, Sobre, Serviços and Contactos.
+- Admin area at `/admin`.
+- Structured page editing, media library, SEO, site identity and settings.
+- Contact-message inbox with spam controls.
+- Revision history and restore.
+- Secure sessions, server-side validation, audit events and rate limiting.
+- Automated off-server backups and restore verification.
+
+## Out of scope for v1
+
+Public registration, multiple administrators, commerce, subscriptions, payments, comments, page builder, centralized multi-tenancy and mobile app.
+
+## Initial implementation status
+
+This repository is being initialized. Architecture and implementation decisions are documented under `docs/`. No production-readiness claim is made until automated tests, security checks, deployment and restore procedures have been verified.
+
+## Development
+
+The application uses Next.js App Router, TypeScript, PostgreSQL, Prisma, Zod and a local/S3-compatible media storage adapter. See `docs/architecture.md` and `docs/implementation-plan.md`.
