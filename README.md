@@ -46,3 +46,5 @@ O CI executa instalação, geração do Prisma Client, lint, verificação TypeS
 CI dependency installation uses npm with compatibility flags until a reviewed lockfile is committed.
 
 CI uses the ESLint flat configuration compatible with the installed Next.js release.
+
+ESLint presets are adapted through FlatCompat for ESLint 9 compatibility.
