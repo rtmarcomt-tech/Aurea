@@ -2,6 +2,7 @@ import {PublishedPageContent} from "@/components/published-page-content";
 import {PublishedPageHeroImage} from "@/components/published-page-hero-image";
 import {getPublishedPageContent,getPublishedPageSeo} from "@/lib/page-content";
 import type {Metadata} from "next";import Link from "next/link";import {SiteHeader,SiteFooter} from "@/components/site-chrome";
+export const dynamic="force-dynamic";
 export async function generateMetadata():Promise<Metadata>{const seo=await getPublishedPageSeo("creators");return {title:seo?.seoTitle||"Serviços para Creator Economy | AureA",description:seo?.seoDescription||"Websites pessoais, lojas online, plataformas de monetização, produção de conteúdo, personal branding e crescimento para creators."}}
 const items=[
 ["01","Website pessoal e identidade digital","Uma presença própria, profissional e independente das redes sociais.","Desenvolvemos um website que funciona como centro da identidade digital da criadora: apresenta a sua atividade, reúne projetos e conteúdos, centraliza os canais oficiais e permite controlar a forma como se apresenta.","Domínio e website próprio; apresentação e biografia profissional; portefólio e seleção de trabalhos; galerias e páginas de conteúdo; formulários e contactos; integração com redes e serviços externos.","Uma base digital própria, reconhecível e preparada para evoluir com a marca pessoal."],
