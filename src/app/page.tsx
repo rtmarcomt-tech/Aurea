@@ -1,10 +1,11 @@
 import {PublishedPageContent} from "@/components/published-page-content";
+import {getPublishedPageContent} from "@/lib/page-content";
 import Link from "next/link";
 import {SiteHeader,SiteFooter} from "@/components/site-chrome";
 export const metadata={title:"AureA — MultiMedia Digital Solutions",description:"Estratégia, criatividade, imagem e tecnologia para empresas, marcas e creators. Soluções digitais B2B e Creator Economy."};
-export default function HomePage(){return <main className="aurea-home"><SiteHeader/>
+export default async function HomePage(){const editable=await getPublishedPageContent("home");return <main className="aurea-home"><SiteHeader/>
 <section className="home-master">
- <div className="home-master-copy"><p className="eyebrow">AureA — mMDs / MultiMedia Digital Solutions</p><h1>Criamos o futuro<br/>dos projetos <em>no digital.</em></h1><p>Estratégia, criatividade, imagem e tecnologia para desenvolver marcas, negócios e projetos digitais.</p><Link className="text-link" href="/servicos">Conheça as nossas áreas de atuação <span>↗</span></Link></div>
+ <div className="home-master-copy"><p className="eyebrow">AureA — mMDs / MultiMedia Digital Solutions</p><h1>{editable?.title||<>Criamos o futuro<br/>dos projetos <em>no digital.</em></>}</h1><p>{editable?.intro||"Estratégia, criatividade, imagem e tecnologia para desenvolver marcas, negócios e projetos digitais."}</p><Link className="text-link" href="/servicos">Conheça as nossas áreas de atuação <span>↗</span></Link></div>
  <div className="home-master-foot"><span>ESTRATÉGIA</span><span>CRIATIVIDADE</span><span>IMAGEM</span><span>TECNOLOGIA</span></div>
 </section>
 <section className="home-audience" aria-label="Escolha o seu percurso">
