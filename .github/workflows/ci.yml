@@ -35,3 +35,11 @@ jobs:
         env:
           DATABASE_URL: postgresql://ci:ci@127.0.0.1:5432/aurea?schema=public
           APP_SECRET: ci-only-placeholder-secret-not-used-in-production
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+      - name: End-to-end tests
+        run: npm run test:e2e
+        env:
+          DATABASE_URL: postgresql://ci:ci@127.0.0.1:5432/aurea?schema=public
+          APP_SECRET: ci-only-placeholder-secret-not-used-in-production
+          APP_URL: http://127.0.0.1:3000

@@ -11,7 +11,7 @@ AureA is a reusable codebase deployed independently for each customer website. E
 - Argon2id password hashing.
 - Database-backed opaque sessions; HttpOnly, Secure and SameSite cookies.
 - Sharp image processing.
-- Local development storage and an S3-compatible production storage adapter.
+- Local filesystem media storage is implemented through `MEDIA_LOCAL_DIR`; production requires a persistent mounted volume and off-server backup. An S3-compatible adapter is planned but not implemented.
 - Vitest and Playwright.
 - Docker Compose; Caddy or Nginx for TLS termination.
 
@@ -34,7 +34,7 @@ AureA is a reusable codebase deployed independently for each customer website. E
 6. Restore creates a new draft from a revision; history is not silently rewritten.
 
 ## Media lifecycle
-Uploads are authenticated, rate-limited and bounded. Validate extension, declared MIME and detected signature; decode and re-encode supported images with Sharp; generate safe variants; assign random storage keys; strip unnecessary metadata. Reject SVG and executable formats initially. Deletion checks references and uses a controlled replacement flow.
+Uploads are authenticated, rate-limited and bounded to 12 MB. The endpoint allowlists JPEG, PNG, WebP and AVIF MIME types, decodes/re-encodes with Sharp to WebP, resizes to a 2400-pixel maximum edge, assigns random storage keys and stores metadata. SVG and executable formats are rejected. The initial admin flow supports selecting replacement images; safe deletion and S3 storage remain future work.
 
 ## Contact form
 Validate and normalize server-side; enforce request-size limits, rate limits, honeypot and timing signals. Persist messages independently from public content. Email notification is optional and not required for successful storage.

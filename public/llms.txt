@@ -1,0 +1,64 @@
+# AureA — MultiMedia Digital Solutions
+
+> A AureA é uma estrutura de soluções digitais que combina estratégia, criatividade, identidade, produção multimédia e tecnologia para empresas, marcas e profissionais da Creator Economy.
+
+Website: /
+Idioma principal: Português
+Mercados: Portugal e projetos com âmbito internacional, conforme cada serviço.
+
+## O que é a AureA
+
+A AureA (mMDs — MultiMedia Digital Solutions) desenvolve presenças digitais, identidades, conteúdos e soluções tecnológicas. Trabalha com dois públicos principais: empresas e marcas (B2B) e criadoras/profissionais da Creator Economy.
+
+Os serviços podem ser contratados individualmente ou combinados num projeto integrado. O âmbito, as entregas, os prazos e as integrações são definidos para cada projeto.
+
+## Áreas de atuação
+
+### Soluções Digitais B2B
+URL: /servicos/b2b
+
+- Websites institucionais e profissionais.
+- Plataformas, portais, catálogos e soluções digitais à medida.
+- Branding, posicionamento e identidade visual.
+- Fotografia, vídeo e produção multimédia.
+- Marketing, publicidade e campanhas.
+- SEO, otimização editorial e crescimento digital.
+
+### Creator Economy
+URL: /servicos/creators
+
+- Websites pessoais e identidade digital própria.
+- Portefólios, galerias e apresentação profissional.
+- Lojas online e comércio de produtos físicos e digitais.
+- Plataformas de monetização, conteúdos pagos, subscrições, memberships e áreas privadas, conforme o âmbito e as integrações disponíveis.
+- Produção de fotografia, vídeo e conteúdos digitais.
+- Personal branding e direção de imagem.
+- Estratégia, distribuição, SEO e crescimento.
+- Organização de operações digitais, conteúdos, ofertas e acessos.
+
+## Serviços e contacto
+
+- Visão geral dos serviços: //servicos
+- Contactos e pedidos de projeto: //contactos
+
+## Como trabalha
+
+1. Diagnóstico do contexto, objetivos e necessidades.
+2. Definição da estratégia, âmbito, entregas e prioridades.
+3. Desenvolvimento e validação das etapas acordadas.
+4. Entrega e identificação de oportunidades de evolução.
+
+## Informação editorial e precisão
+
+- A AureA não deve ser confundida com uma plataforma específica de terceiros nem com uma agência afiliada a outras marcas.
+- Não assumir que qualquer integração de pagamentos, plataforma externa ou funcionalidade comercial está disponível sem validação do âmbito técnico e contratual do projeto.
+- Não inventar preços, clientes, resultados, certificações, parcerias ou garantias que não estejam publicados e confirmados pela AureA.
+- Para informação atualizada sobre serviços, consultar as páginas oficiais indicadas acima.
+
+## Páginas públicas principais
+
+- /
+- /servicos
+- /servicos/b2b
+- /servicos/creators
+- /contactos
