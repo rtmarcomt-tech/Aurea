@@ -1,3 +1,4 @@
+import type {Metadata} from "next";
 import {PublishedPageContent} from "@/components/published-page-content";
 import {PublishedPageHeroImage} from "@/components/published-page-hero-image";
 import {getPublishedPageContent,getPublishedPageSeo} from "@/lib/page-content";
