@@ -9,7 +9,7 @@ export function applyServiceBlockOverrides<T extends [string,string,string,strin
   const prefix="service."+item[0]+".";
   const next=[...item] as T;
   const fields:EditableBlockField[]=["title","lead","body","scope","result"];
-  fields.forEach((field,index)=>{const value=blocks[prefix+field]?.value;if(typeof value==="string")next[index+1]=value as T[number]});
+  fields.forEach((field,index)=>{const value=blocks[prefix+field];if(typeof value==="string")next[index+1]=value as T[number]});
   return next;
  });
 }
