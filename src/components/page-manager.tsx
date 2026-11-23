@@ -1,10 +1,11 @@
 "use client";
 import {useCallback,useEffect,useState} from "react";
 import {MediaLibrary} from "@/components/media-library";
+import {serviceBlockFields,type EditableBlockField} from "@/lib/page-blocks";
 type Section={heading:string;body:string;imageUrl:string;imageAlt:string;itemsText:string};
 type HeroFrame={url:string;alt:string;title:string;body:string};
 type Page={id:string;key:string;path:string;status:"DRAFT"|"PUBLISHED";draftContent:unknown;seoTitle:string|null;seoDescription:string|null;version:number;draftSeoTitle:string|null;draftSeoDescription:string|null};
-type Content={title:string;intro:string;heroImage:string;heroImageAlt:string;heroImages:HeroFrame[];heroDurationMs:number;sections:Section[]};
+type Content={title:string;intro:string;heroImage:string;heroImageAlt:string;heroImages:HeroFrame[];heroDurationMs:number;sections:Section[];blocks:Record<string,Partial<Record<EditableBlockField,string>>>};
 const names:Record<string,string>={home:"Homepage",b2b:"Serviços B2B",creators:"Serviços Creator Economy",contactos:"Contactos"};
 const defaultFrames:Record<string,HeroFrame[]>={
  home:[
@@ -24,7 +25,7 @@ const defaultFrames:Record<string,HeroFrame[]>={
   {url:"/visuals/aurea-architecture.svg",alt:"Arquitetura abstrata em tons frios",title:"Da imagem à estrutura.",body:"Tecnologia e estratégia para desenvolver o teu negócio digital."}
  ]
 };
-const blank=():Content=>({title:"",intro:"",heroImage:"",heroImageAlt:"",heroImages:[],heroDurationMs:5200,sections:[]});
+const blank=():Content=>({title:"",intro:"",heroImage:"",heroImageAlt:"",heroImages:[],heroDurationMs:5200,sections:[],blocks:{}});
 function decode(value:unknown,pageKey:string):Content{
  const v=value&&typeof value==="object"?value as Record<string,unknown>:{};
  const heroImages=Array.isArray(v.heroImages)?v.heroImages.flatMap((item)=>{if(!item||typeof item!=="object")return[];const frame=item as Record<string,unknown>;return typeof frame.url==="string"&&frame.url? [{url:frame.url,alt:typeof frame.alt==="string"?frame.alt:"",title:typeof frame.title==="string"?frame.title:"",body:typeof frame.body==="string"?frame.body:""}]:[]}):[];
@@ -58,6 +59,7 @@ export function PageManager(){
      {!content.heroImages.length&&<p className="page-manager-empty">Ainda não existem fotografias nesta sequência.</p>}
     <button type="button" onClick={()=>setImageTarget({kind:"hero"})}>Adicionar fotografia à sequência</button>
    </div>
+   {(["b2b","creators"].includes(key))&&<div className="page-block-editor"><h3>Conteúdo dos serviços</h3><p className="page-manager-meta">Edite os textos de cada serviço sem alterar a estrutura ou o design da página. Os campos vazios mantêm o texto original.</p>{Array.from({length:key==="b2b"?6:7},(_,index)=>{const number=String(index+1).padStart(2,"0");const serviceKey="service."+number;const serviceNames=key==="b2b"?["Websites institucionais e profissionais","Plataformas e soluções digitais","Branding e identidade","Fotografia, vídeo e produção multimédia","Marketing e publicidade","SEO e crescimento digital"]:["Website pessoal e identidade digital","Lojas online e comércio digital","Plataformas de monetização","Produção, fotografia e vídeo","Personal branding e direção de imagem","Estratégia, distribuição e crescimento","Operação digital e apoio à monetização"];return <details className="page-block-item" key={serviceKey}><summary>{number} / {serviceNames[index]}</summary>{serviceBlockFields.map(([field,label])=><label key={field}>{label}{field==="body"||field==="scope"||field==="result"?<textarea rows={3} value={content.blocks[serviceKey]?.[field]||""} placeholder="Manter texto original" onChange={e=>setContent(old=>({...old,blocks:{...old.blocks,[serviceKey]:{...old.blocks[serviceKey],[field]:e.target.value}}}))}/>:<input value={content.blocks[serviceKey]?.[field]||""} placeholder="Manter texto original" onChange={e=>setContent(old=>({...old,blocks:{...old.blocks,[serviceKey]:{...old.blocks[serviceKey],[field]:e.target.value}}}))}/>}</label>)}</details>})}</div>}
    <div><h3>Otimização para motores de pesquisa</h3><label>Título SEO<input value={seoTitle} onChange={e=>setSeoTitle(e.target.value)} maxLength={180}/></label><label>Descrição SEO<textarea value={seoDescription} onChange={e=>setSeoDescription(e.target.value)} rows={3} maxLength={320}/></label></div>
   </div>
   <div className="editor-sections-head"><div><h3>Secções de conteúdo</h3><p>Adicione blocos de texto e imagens à página.</p></div><button type="button" onClick={()=>update("sections",[...content.sections,{heading:"",body:"",imageUrl:"",imageAlt:"",itemsText:""}])}>Adicionar secção</button></div>
