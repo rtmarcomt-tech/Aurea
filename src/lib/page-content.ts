@@ -1,4 +1,4 @@
 import {prisma} from "@/lib/prisma";
-export type EditablePageContent={title?:string;intro?:string;heroImage?:string;heroImageAlt?:string;heroImages?:Array<{url?:string;alt?:string;title?:string;body?:string}>;heroDurationMs?:number;sections?:Array<{heading?:string;body?:string;items?:string[];imageUrl?:string;imageAlt?:string}>};
+export type EditablePageContent={title?:string;intro?:string;heroImage?:string;heroImageAlt?:string;heroImages?:Array<{url?:string;alt?:string;title?:string;body?:string}>;heroDurationMs?:number;sections?:Array<{heading?:string;body?:string;items?:string[];imageUrl?:string;imageAlt?:string}>;blocks?:Record<string,Partial<Record<\"title\"|\"lead\"|\"body\"|\"scope\"|\"result\",string>>>};
 export async function getPublishedPageContent(key:string){try{const page=await prisma.page.findUnique({where:{key},select:{publishedContent:true}});return page?.publishedContent as EditablePageContent|null;}catch{return null;}}
 export async function getPublishedPageSeo(key:string){try{const page=await prisma.page.findUnique({where:{key},select:{seoTitle:true,seoDescription:true}});return page;}catch{return null;}}
