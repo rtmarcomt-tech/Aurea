@@ -1,4 +1,4 @@
-import {NextResponse} from "next/server";import {Prisma} from "@prisma/client";import {z} from "zod";import {getAdminSession} from "@/lib/admin-auth";import {prisma} from "@/lib/prisma";
+import {NextResponse} from "next/server";import type {Prisma} from "@prisma/client";import {z} from "zod";import {getAdminSession} from "@/lib/admin-auth";import {prisma} from "@/lib/prisma";
 export const dynamic="force-dynamic";
 const allowed=[{key:"home",path:"/"},{key:"b2b",path:"/servicos/b2b"},{key:"creators",path:"/servicos/creators"},{key:"contactos",path:"/contactos"}] as const;
 const seed=(_key:string)=>({title:"",intro:"",heroImage:"",heroImageAlt:"",sections:[]});
