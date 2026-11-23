@@ -403,3 +403,6 @@
 .published-content-section p,.published-content-section li{font-size:15px;line-height:1.8;color:#50647c}
 .published-content-section figure{margin:22px 0}
 @media(max-width:760px){.page-editor-grid{grid-template-columns:1fr;gap:8px}.editor-sections-head{align-items:flex-start;gap:12px}.media-upload{align-items:flex-start;flex-direction:column}.published-content{padding:48px 22px}}
+
+.published-media-hero{margin:36px 0 0;max-width:100%}
+.published-media-hero img{display:block;width:100%;max-height:560px;object-fit:cover}
