@@ -34,6 +34,10 @@ This repository is being initialized. Architecture and implementation decisions 
 The application uses Next.js App Router, TypeScript, PostgreSQL, Prisma, Zod and Sharp. The current media upload implementation stores optimized WebP files on the local filesystem using `MEDIA_LOCAL_DIR`; production must mount this path on persistent storage and include it in backups. An S3-compatible adapter remains future work. See `docs/architecture.md` and `docs/implementation-plan.md`.
 
 
+## Instalação e operação
+
+O procedimento de instalação, configuração HTTPS, bootstrap do primeiro administrador, armazenamento multimédia, backups, restauro e atualizações está em [docs/deployment-production.md](docs/deployment-production.md).
+
 ## Administração e contactos
 
 - Backoffice protegido em `/admin`, com autenticação por sessão HttpOnly.
