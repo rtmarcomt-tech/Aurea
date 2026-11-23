@@ -31,14 +31,14 @@ This repository is being initialized. Architecture and implementation decisions 
 
 ## Development
 
-The application uses Next.js App Router, TypeScript, PostgreSQL, Prisma, Zod and a local/S3-compatible media storage adapter. See `docs/architecture.md` and `docs/implementation-plan.md`.
+The application uses Next.js App Router, TypeScript, PostgreSQL, Prisma, Zod and Sharp. The current media upload implementation stores optimized WebP files on the local filesystem using `MEDIA_LOCAL_DIR`; production must mount this path on persistent storage and include it in backups. An S3-compatible adapter remains future work. See `docs/architecture.md` and `docs/implementation-plan.md`.
 
 
 ## Administração e contactos
 
 - Backoffice protegido em `/admin`, com autenticação por sessão HttpOnly.
 - Configuração inicial de administrador: consultar [docs/admin-setup.md](docs/admin-setup.md).
-- Caixa de entrada de contactos em `/admin/contactos`, com estados Nova, Lida e Arquivada.
+- Caixa de entrada de contactos em `/admin/contactos`, com estados Nova, Lida e Arquivada.\n- Editor de conteúdos e SEO em `/admin/conteudo`, com rascunhos, publicação e revisões.\n- Biblioteca multimédia com upload autenticado, validação de ficheiros, conversão WebP, imagens principais e imagens por secção.
 - Migrações PostgreSQL versionadas em `prisma/migrations`.
 
 O CI executa instalação, geração do Prisma Client, lint, verificação TypeScript, testes unitários e build de produção. A publicação não deve avançar enquanto estes controlos não estiverem verdes.
