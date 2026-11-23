@@ -6,7 +6,7 @@ type Section={heading:string;body:string;imageUrl:string;imageAlt:string;itemsTe
 type HeroFrame={url:string;alt:string;title:string;body:string};
 type Page={id:string;key:string;path:string;status:"DRAFT"|"PUBLISHED";draftContent:unknown;seoTitle:string|null;seoDescription:string|null;version:number;draftSeoTitle:string|null;draftSeoDescription:string|null};
 type Content={title:string;intro:string;heroImage:string;heroImageAlt:string;heroImages:HeroFrame[];heroDurationMs:number;sections:Section[];blocks:Record<string,Partial<Record<EditableBlockField,string>>>};
-const names:Record<string,string>={home:"Homepage",b2b:"Serviços B2B",creators:"Serviços Creator Economy",contactos:"Contactos"};
+const names:Record<string,string>={home:"Homepage",servicos:"Áreas de serviços",b2b:"Serviços B2B",creators:"Serviços Creator Economy",contactos:"Contactos"};
 const defaultFrames:Record<string,HeroFrame[]>={
  home:[
   {url:"/visuals/aurea-architecture.svg",alt:"Arquitetura abstrata em azul, violeta e ciano",title:"Estratégia com visão.",body:"Uma estrutura integrada para transformar ideias em experiências digitais."},
