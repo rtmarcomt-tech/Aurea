@@ -431,3 +431,10 @@
 .image-sequence-toggle{border:0;background:transparent;color:#244b78;font:inherit;font-size:10px;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
 @media(max-width:760px){.hero-sequence-item{grid-template-columns:90px minmax(0,1fr);gap:10px}.hero-sequence-item>img{width:90px;height:90px}.image-sequence-stage{height:clamp(230px,65vw,420px)}}
 @media(prefers-reduced-motion:reduce){.image-sequence-stage img{transition:none;transform:none}}
+
+/* AureA — synchronized editorial image and copy sequences */
+.image-sequence-stage{isolation:isolate}
+.image-sequence-stage:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(8,25,45,.62));pointer-events:none;z-index:1}
+.image-sequence-copy{position:absolute;z-index:2;left:clamp(22px,5vw,68px);right:clamp(22px,5vw,68px);bottom:clamp(24px,5vw,62px);color:#fff;max-width:760px;animation:sequenceCopyIn .85s cubic-bezier(.2,.7,.2,1) both}
+.image-sequence-copy>span{font-size:9px;letter-spacing:2px;opacity:.8}.image-sequence-copy h2{font-size:clamp(34px,5.8vw,72px);line-height:1.02;letter-spacing:-.055em;font-weight:500;margin:13px 0 10px;text-wrap:balance}.image-sequence-copy p{max-width:560px;font-size:clamp(13px,1.4vw,17px);line-height:1.65;color:rgba(255,255,255,.9);margin:0}
+@keyframes sequenceCopyIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}@media(prefers-reduced-motion:reduce){.image-sequence-copy{animation:none}}
