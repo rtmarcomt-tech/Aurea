@@ -2,6 +2,7 @@ import {PublishedPageContent} from "@/components/published-page-content";
 import {PublishedPageHeroImage} from "@/components/published-page-hero-image";
 import {getPublishedPageContent,getPublishedPageSeo} from "@/lib/page-content";
 import type {Metadata} from "next";import Link from "next/link";import {SiteHeader,SiteFooter} from "@/components/site-chrome";
+export const dynamic="force-dynamic";
 export async function generateMetadata():Promise<Metadata>{const seo=await getPublishedPageSeo("b2b");return {title:seo?.seoTitle||"Soluções Digitais B2B | AureA",description:seo?.seoDescription||"Websites, plataformas, branding, produção multimédia, marketing, publicidade e SEO para empresas e marcas."}}
 const items=[
 ["01","Websites institucionais e profissionais","Uma presença digital clara, credível e preparada para representar a sua organização.","Planeamos e desenvolvemos websites que apresentam a empresa, explicam a oferta e ajudam clientes, parceiros e outros públicos a encontrar a informação de que precisam. Arquitetura, experiência, conteúdo e tecnologia são pensados em conjunto.","Websites institucionais e multipágina; websites profissionais e páginas de campanha; arquitetura de informação e UX/UI; design responsivo; formulários e integrações; SEO técnico de base e preparação para indexação.","Uma presença digital consistente, acessível e alinhada com os objetivos comerciais e institucionais."],
