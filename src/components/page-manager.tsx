@@ -6,16 +6,34 @@ type HeroFrame={url:string;alt:string;title:string;body:string};
 type Page={id:string;key:string;path:string;status:"DRAFT"|"PUBLISHED";draftContent:unknown;seoTitle:string|null;seoDescription:string|null;version:number;draftSeoTitle:string|null;draftSeoDescription:string|null};
 type Content={title:string;intro:string;heroImage:string;heroImageAlt:string;heroImages:HeroFrame[];heroDurationMs:number;sections:Section[]};
 const names:Record<string,string>={home:"Homepage",b2b:"Serviços B2B",creators:"Serviços Creator Economy",contactos:"Contactos"};
+const defaultFrames:Record<string,HeroFrame[]>={
+ home:[
+  {url:"/visuals/aurea-architecture.svg",alt:"Arquitetura abstrata em azul, violeta e ciano",title:"Estratégia com visão.",body:"Uma estrutura integrada para transformar ideias em experiências digitais."},
+  {url:"/visuals/aurea-ribbons.svg",alt:"Formas translúcidas fluidas em movimento",title:"Criatividade em movimento.",body:"Identidade, imagem e comunicação articuladas com intenção."},
+  {url:"/visuals/aurea-orbit.svg",alt:"Órbitas luminosas abstratas",title:"Tecnologia com propósito.",body:"Soluções digitais construídas em função de objetivos concretos."},
+  {url:"/visuals/aurea-lightspace.svg",alt:"Espaço abstrato atravessado por luz azul e violeta",title:"Preparados para evoluir.",body:"Uma presença digital concebida para acompanhar o próximo passo."}
+ ],
+ b2b:[
+  {url:"/visuals/aurea-lightspace.svg",alt:"Espaço arquitetónico abstrato com luz azul e violeta",title:"Uma presença com direção.",body:"Estratégia e identidade para comunicar com clareza e consistência."},
+  {url:"/visuals/aurea-architecture.svg",alt:"Estruturas arquitetónicas abstratas",title:"Sistemas que trabalham em conjunto.",body:"Websites, plataformas e tecnologia alinhados com a operação."},
+  {url:"/visuals/aurea-orbit.svg",alt:"Estruturas orbitais luminosas",title:"Crescimento com fundamento.",body:"Uma base digital preparada para novas oportunidades."}
+ ],
+ creators:[
+  {url:"/visuals/aurea-ribbons.svg",alt:"Composição abstrata de fitas translúcidas",title:"Uma identidade própria.",body:"Uma presença digital reconhecível, coerente e independente."},
+  {url:"/visuals/aurea-orbit.svg",alt:"Formas orbitais luminosas abstratas",title:"Mais controlo sobre o teu projeto.",body:"Conteúdos, canais e experiências organizados numa estrutura tua."},
+  {url:"/visuals/aurea-architecture.svg",alt:"Arquitetura abstrata em tons frios",title:"Da imagem à estrutura.",body:"Tecnologia e estratégia para desenvolver o teu negócio digital."}
+ ]
+};
 const blank=():Content=>({title:"",intro:"",heroImage:"",heroImageAlt:"",heroImages:[],heroDurationMs:5200,sections:[]});
-function decode(value:unknown):Content{
+function decode(value:unknown,pageKey:string):Content{
  const v=value&&typeof value==="object"?value as Record<string,unknown>:{};
  const heroImages=Array.isArray(v.heroImages)?v.heroImages.flatMap((item)=>{if(!item||typeof item!=="object")return[];const frame=item as Record<string,unknown>;return typeof frame.url==="string"&&frame.url? [{url:frame.url,alt:typeof frame.alt==="string"?frame.alt:"",title:typeof frame.title==="string"?frame.title:"",body:typeof frame.body==="string"?frame.body:""}]:[]}):[];
  const legacy=typeof v.heroImage==="string"&&v.heroImage?[{url:v.heroImage,alt:typeof v.heroImageAlt==="string"?v.heroImageAlt:"",title:"",body:""}]:[];
- return {title:typeof v.title==="string"?v.title:"",intro:typeof v.intro==="string"?v.intro:"",heroImage:typeof v.heroImage==="string"?v.heroImage:"",heroImageAlt:typeof v.heroImageAlt==="string"?v.heroImageAlt:"",heroImages:heroImages.length?heroImages:legacy,heroDurationMs:typeof v.heroDurationMs==="number"?Math.min(12000,Math.max(2500,v.heroDurationMs)):5200,sections:Array.isArray(v.sections)?v.sections.map((x)=>{const s=x as Record<string,unknown>;return {heading:typeof s.heading==="string"?s.heading:"",body:typeof s.body==="string"?s.body:"",imageUrl:typeof s.imageUrl==="string"?s.imageUrl:"",imageAlt:typeof s.imageAlt==="string"?s.imageAlt:"",itemsText:Array.isArray(s.items)?s.items.filter((i):i is string=>typeof i==="string").join("\n"):""}}):[]};
+ return {title:typeof v.title==="string"?v.title:"",intro:typeof v.intro==="string"?v.intro:"",heroImage:typeof v.heroImage==="string"?v.heroImage:"",heroImageAlt:typeof v.heroImageAlt==="string"?v.heroImageAlt:"",heroImages:heroImages.length?heroImages:legacy.length?legacy:(defaultFrames[pageKey]||[]),heroDurationMs:typeof v.heroDurationMs==="number"?Math.min(12000,Math.max(2500,v.heroDurationMs)):5200,sections:Array.isArray(v.sections)?v.sections.map((x)=>{const s=x as Record<string,unknown>;return {heading:typeof s.heading==="string"?s.heading:"",body:typeof s.body==="string"?s.body:"",imageUrl:typeof s.imageUrl==="string"?s.imageUrl:"",imageAlt:typeof s.imageAlt==="string"?s.imageAlt:"",itemsText:Array.isArray(s.items)?s.items.filter((i):i is string=>typeof i==="string").join("\n"):""}}):[]};
 }
 export function PageManager(){
  const [pages,setPages]=useState<Page[]>([]);const [key,setKey]=useState("home");const [content,setContent]=useState<Content>(blank());const [seoTitle,setSeoTitle]=useState("");const [seoDescription,setSeoDescription]=useState("");const [status,setStatus]=useState("");const [busy,setBusy]=useState(false);const [imageTarget,setImageTarget]=useState<{kind:"hero"}|{kind:"section";index:number}>({kind:"hero"});
- async function load(){setStatus("A carregar…");const r=await fetch("/api/v1/admin/pages",{cache:"no-store"});const d=await r.json();if(!r.ok){setStatus(d.error||"Erro ao carregar");return}setPages(d.pages);const p=d.pages.find((x:Page)=>x.key===key);if(p){setContent(decode(p.draftContent));setSeoTitle(p.draftSeoTitle||p.seoTitle||"");setSeoDescription(p.draftSeoDescription||p.seoDescription||"")}setStatus("")}
+ async function load(){setStatus("A carregar…");const r=await fetch("/api/v1/admin/pages",{cache:"no-store"});const d=await r.json();if(!r.ok){setStatus(d.error||"Erro ao carregar");return}setPages(d.pages);const p=d.pages.find((x:Page)=>x.key===key);if(p){setContent(decode(p.draftContent,p.key));setSeoTitle(p.draftSeoTitle||p.seoTitle||"");setSeoDescription(p.draftSeoDescription||p.seoDescription||"")}setStatus("")}
  useEffect(()=>{void load()},[]);
  useEffect(()=>{const p=pages.find(x=>x.key===key);if(p){setContent(decode(p.draftContent));setSeoTitle(p.draftSeoTitle||p.seoTitle||"");setSeoDescription(p.draftSeoDescription||p.seoDescription||"")}},[key,pages]);
  function update<K extends keyof Content>(field:K,value:Content[K]){setContent(old=>({...old,[field]:value}))}
