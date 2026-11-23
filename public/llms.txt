@@ -2,7 +2,7 @@
 
 > A AureA é uma estrutura de soluções digitais que combina estratégia, criatividade, identidade, produção multimédia e tecnologia para empresas, marcas e profissionais da Creator Economy.
 
-Website: https://aurea.pt
+Website: /
 Idioma principal: Português
 Mercados: Portugal e projetos com âmbito internacional, conforme cada serviço.
 
@@ -15,7 +15,7 @@ Os serviços podem ser contratados individualmente ou combinados num projeto int
 ## Áreas de atuação
 
 ### Soluções Digitais B2B
-URL: https://aurea.pt/servicos/b2b
+URL: /servicos/b2b
 
 - Websites institucionais e profissionais.
 - Plataformas, portais, catálogos e soluções digitais à medida.
@@ -25,7 +25,7 @@ URL: https://aurea.pt/servicos/b2b
 - SEO, otimização editorial e crescimento digital.
 
 ### Creator Economy
-URL: https://aurea.pt/servicos/creators
+URL: /servicos/creators
 
 - Websites pessoais e identidade digital própria.
 - Portefólios, galerias e apresentação profissional.
@@ -38,8 +38,8 @@ URL: https://aurea.pt/servicos/creators
 
 ## Serviços e contacto
 
-- Visão geral dos serviços: https://aurea.pt/servicos
-- Contactos e pedidos de projeto: https://aurea.pt/contactos
+- Visão geral dos serviços: //servicos
+- Contactos e pedidos de projeto: //contactos
 
 ## Como trabalha
 
@@ -57,8 +57,8 @@ URL: https://aurea.pt/servicos/creators
 
 ## Páginas públicas principais
 
-- https://aurea.pt/
-- https://aurea.pt/servicos
-- https://aurea.pt/servicos/b2b
-- https://aurea.pt/servicos/creators
-- https://aurea.pt/contactos
+- /
+- /servicos
+- /servicos/b2b
+- /servicos/creators
+- /contactos
