@@ -1,0 +1,1 @@
+export default function B2B(){return <main>B2B services page</main>}
