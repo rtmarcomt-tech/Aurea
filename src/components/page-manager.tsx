@@ -1,5 +1,5 @@
 "use client";
-import {useEffect,useState} from "react";
+import {useCallback,useEffect,useState} from "react";
 import {MediaLibrary} from "@/components/media-library";
 type Section={heading:string;body:string;imageUrl:string;imageAlt:string;itemsText:string};
 type HeroFrame={url:string;alt:string;title:string;body:string};
@@ -33,9 +33,9 @@ function decode(value:unknown,pageKey:string):Content{
 }
 export function PageManager(){
  const [pages,setPages]=useState<Page[]>([]);const [key,setKey]=useState("home");const [content,setContent]=useState<Content>(blank());const [seoTitle,setSeoTitle]=useState("");const [seoDescription,setSeoDescription]=useState("");const [status,setStatus]=useState("");const [busy,setBusy]=useState(false);const [imageTarget,setImageTarget]=useState<{kind:"hero"}|{kind:"section";index:number}>({kind:"hero"});
- async function load(){setStatus("A carregar…");const r=await fetch("/api/v1/admin/pages",{cache:"no-store"});const d=await r.json();if(!r.ok){setStatus(d.error||"Erro ao carregar");return}setPages(d.pages);const p=d.pages.find((x:Page)=>x.key===key);if(p){setContent(decode(p.draftContent,p.key));setSeoTitle(p.draftSeoTitle||p.seoTitle||"");setSeoDescription(p.draftSeoDescription||p.seoDescription||"")}setStatus("")}
- useEffect(()=>{void load()},[]);
- useEffect(()=>{const p=pages.find(x=>x.key===key);if(p){setContent(decode(p.draftContent));setSeoTitle(p.draftSeoTitle||p.seoTitle||"");setSeoDescription(p.draftSeoDescription||p.seoDescription||"")}},[key,pages]);
+ const load=useCallback(async()=>{setStatus("A carregar…");const r=await fetch("/api/v1/admin/pages",{cache:"no-store"});const d=await r.json();if(!r.ok){setStatus(d.error||"Erro ao carregar");return}setPages(d.pages);const p=d.pages.find((x:Page)=>x.key===key);if(p){setContent(decode(p.draftContent,p.key));setSeoTitle(p.draftSeoTitle||p.seoTitle||"");setSeoDescription(p.draftSeoDescription||p.seoDescription||"")}setStatus("")},[key]);
+ useEffect(()=>{void load()},[load]);
+ useEffect(()=>{const p=pages.find(x=>x.key===key);if(p){setContent(decode(p.draftContent,p.key));setSeoTitle(p.draftSeoTitle||p.seoTitle||"");setSeoDescription(p.draftSeoDescription||p.seoDescription||"")}},[key,pages]);
  function update<K extends keyof Content>(field:K,value:Content[K]){setContent(old=>({...old,[field]:value}))}
  function updateSection(index:number,field:keyof Section,value:string){setContent(old=>({...old,sections:old.sections.map((s,i)=>i===index?{...s,[field]:value}:s)}))}
  function moveFrame(index:number,direction:-1|1){setContent(old=>{const next=[...old.heroImages];const target=index+direction;if(target<0||target>=next.length)return old;[next[index],next[target]]=[next[target],next[index]];return {...old,heroImages:next}})}
